@@ -18,15 +18,13 @@ export default function Home() {
           <div className="flex justify-center">
             <img src="https://www.pngall.com/wp-content/uploads/12/Running-PNG-Pic.png" className="w-32" />
           </div>
-          <h1 className="text-5xl font-bold italic pb-3 pt-2">Striver</h1>
+          <h1 className="text-5xl font-bold italic pb-3 pt-2">STRIVER</h1>
           <p className="italic">Always Striving, Always Improving</p>
         </div>
         <div className="flex flex-col gap-4">
           <p>You are not logged in!</p>
-          <input className="rounded-md" placeholder="Email" />
-          <input className="rounded-md" placeholder="Passsword" />
-          <button onClick={async () => signIn('github')} className="bg-orange-500 hover:bg-orange-600 p-2 text-white rounded-xl w-full">Sign In</button>
-          <button className="bg-orange-500 hover:bg-orange-600 p-2 text-white rounded-xl w-full">Register</button>
+          <button onClick={async () => signIn('github')} className="bg-orange-500 hover:bg-orange-600 p-2 rounded-xl w-full">Sign in with Github</button>
+          <button onClick={async () => signIn('google')} className="bg-orange-500 hover:bg-orange-600 p-2 rounded-xl w-full">Sign in with Google</button>
         </div>
       </div>
     </div>

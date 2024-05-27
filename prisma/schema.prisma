@@ -43,6 +43,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  workouts      Workout[]
 }
  
 model VerificationToken {
@@ -52,3 +53,14 @@ model VerificationToken {
  
   @@unique([identifier, token])
 } 
+
+model Workout {
+  id              String    @id @default(cuid())
+  user            User @relation(references: [id], fields: [userId])
+  userId          String
+  name            String
+  distance        String
+  timeGoal        String
+  dateOfWorkout   DateTime
+  compleationTime String?
+}
