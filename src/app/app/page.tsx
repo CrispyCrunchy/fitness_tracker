@@ -61,8 +61,15 @@ export default function App() {
       compleationTime: time 
     }),
     onSuccess: () => {
-      setOngoingWorkout(false);
       queryClient.invalidateQueries();
+      setOngoingWorkout(false);
+      setName("");
+      setDistance(NaN);
+      setDate(new Date());
+      setTimeGoal(NaN);
+      setMinutesAndSeconds({minutes: NaN, seconds: NaN});
+      setTime(0);
+      setIsRunning(false);
     }
   });
 
@@ -107,7 +114,7 @@ export default function App() {
             <div className="flex gap-2 justify-center">
               <button onClick={resetAndCancel} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-20">{time ? "Reset" : "Cancel"}</button>
               <button onClick={startAndStop} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-20">{isRunning ? "Stop" : "Start"}</button>
-              <button onClick={() => createWorkout.mutate} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-20">Finish</button>
+              <button onClick={() => createWorkout.mutate()} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-20">Finish</button>
             </div>
           </div>  
         </div>

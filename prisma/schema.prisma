@@ -59,8 +59,8 @@ model Workout {
   user            User @relation(references: [id], fields: [userId])
   userId          String
   name            String
-  distance        String
-  timeGoal        String
+  distance        Int
+  timeGoal        Int
   dateOfWorkout   DateTime
-  compleationTime String?
+  compleationTime Int?
 }
