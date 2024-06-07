@@ -9,6 +9,10 @@ const api = {
   getCurrentUser: async () => {
     const { data } = await axios.get("/api/get-current-user");
     return data;
+  },
+  getUserWorkouts: async (userId: string) => {
+    const { data } = await axios.get("/api/get-user-workouts/" + userId);
+    return data;
   }
 };
 

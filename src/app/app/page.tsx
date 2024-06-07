@@ -10,7 +10,6 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function App() {
 
   const queryClient = useQueryClient();
-  const { data: session } = useSession();
   const [ ongoingWorkout, setOngoingWorkout ] = useState(false);
 
   //StopWatch
