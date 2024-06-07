@@ -62,5 +62,5 @@ model Workout {
   distance        Int
   timeGoal        Int
   dateOfWorkout   DateTime
-  compleationTime Int?
+  compleationTime Int
 }
