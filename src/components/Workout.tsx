@@ -7,8 +7,8 @@ export default function Workout ({ workout }) {
   }
   
   var date = new Date(workout.dateOfWorkout),
-      dateFormat =  [(date.getMonth()).padLeft(), 
-                      date.getDate().padLeft(),
+      dateFormat =  [ date.getDate().padLeft(),
+                      (date.getMonth()+1).padLeft(), 
                       date.getFullYear()].join('/') + ' ' +
                     [ date.getHours().padLeft(),
                       date.getMinutes().padLeft(),
