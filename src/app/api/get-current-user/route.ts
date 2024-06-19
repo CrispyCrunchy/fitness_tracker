@@ -6,20 +6,26 @@ import prisma from "@/lib/prisma";
 
 export async function GET ( request: NextRequest ) {
   
-  const session = await getServerSession(authOptions);
+  try {
+    const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email: session.user?.email ?? "" },
+      include: { workouts: true }
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found!" }, { status: 404 });
+    }
+
+    return NextResponse.json(user, { status: 200 });
+
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ message: "Internal server error!"}, { status: 500 });
   }
-
-  const user = await prisma.user.findUnique({
-    where: { email: session.user?.email ?? "" },
-    include: { workouts: true }
-  });
-
-  if (!user) {
-    return NextResponse.json({ message: "User not found!" }, { status: 404 });
-  }
-
-  return NextResponse.json(user, { status: 200 });
 }
