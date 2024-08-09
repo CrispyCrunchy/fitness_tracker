@@ -56,7 +56,7 @@ model VerificationToken {
 
 model Workout {
   id              String    @id @default(cuid())
-  user            User @relation(references: [id], fields: [userId])
+  user            User @relation(references: [id], fields: [userId], onDelete: Cascade)
   userId          String
   name            String
   distance        Int

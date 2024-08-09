@@ -7,11 +7,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Alert } from "@mui/material";
 
-export default function App() {
+export default function NewWorkout() {
 
   const queryClient = useQueryClient();
   const [ ongoingWorkout, setOngoingWorkout ] = useState(false);
-  const [ startWorkoutError, setStartWorkoutError ] = useState(false);
+  const [ error, setError ] = useState(false);
   const [ time, setTime ] = useState(0);
   const [ isRunning, setIsRunning ] = useState(false);
   const [ name, setName ] = useState("")
@@ -76,7 +76,7 @@ export default function App() {
       setTimeGoal(minutesAndSeconds.minutes*6000 + minutesAndSeconds.seconds*100);
       setOngoingWorkout(true);
     } else {
-      setStartWorkoutError(true);
+      setError(true);
     }
   }
 
@@ -142,11 +142,11 @@ export default function App() {
           <div>
             <button onClick={startWorkout} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-full">Schedule Workout</button>
           </div>
-          { startWorkoutError ?
-            <Alert variant="filled" severity="error" onClose={() => {setStartWorkoutError(false)}}>
+          { error ?
+            <Alert variant="filled" severity="error" onClose={() => {setError(false)}}>
               There are missing fields
             </Alert>
-            : null
+            : ""
           }
         </div>
       )}
