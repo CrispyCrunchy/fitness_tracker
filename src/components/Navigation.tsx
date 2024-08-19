@@ -14,9 +14,13 @@ export default function Navigation () {
 
   return (
     <div className="flex min-w-screen w-full bottom-0 text-center fixed">
-      <Link href="/app" className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/3 text-sm">Workout</Link>
-      <Link href={user.isSuccess ? "/app/history/" + user.data.id : "/app"} className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/3 text-sm">History</Link>
-      <button onClick={() => signOut()} className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/3 text-sm">Sign Out</button>
+      <Link href="/app" className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/5 text-sm">Home</Link>
+      <Link href="/app/schedule" className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/5 text-sm">Schedule</Link>
+      <Link href="/app/workout" className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/5 text-sm">Workout</Link>
+      <Link href={user.isSuccess ? "/app/history/" + user.data.id : "/app"} className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/5 text-sm">History</Link>
+      <button onClick={() => signOut()} className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/5 text-sm">
+        <img  />
+      </button>
     </div>
   );
 }

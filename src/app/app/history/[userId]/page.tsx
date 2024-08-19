@@ -30,10 +30,10 @@ export default function History () {
       {workouts.isSuccess ? (
         <>
           { (workouts.data.length === 0) ? (
-            <div className="flex flex-col justify-center align-middle">
-              <img src="https://www.pngall.com/wp-content/uploads/12/Running-PNG-Pic.png" className="w-32" />
+            <div className="flex flex-col space-y-5 justify-center text-center h-full m-5">
+              <img src="https://www.pngall.com/wp-content/uploads/12/Running-PNG-Pic.png" className="flex justify-center w-32 text-center" />
               <p>You have no compleated workouts!</p>
-              <Link href="/app" className="bg-orange-500 hover:bg-orange-600 p-2 rounded-xl w-full">Get Started!</Link>
+              <Link href="/app" className="flex bg-orange-500 hover:bg-orange-600 p-2 rounded-xl w-full">Get Started!</Link>
             </div>
           ) : (
             <>

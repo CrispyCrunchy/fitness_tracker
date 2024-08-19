@@ -11,20 +11,14 @@ export default function History () {
 
   const user = useQuery({
     queryKey: ["user"],
-    queryFn: () => api.getCurrentUser
+    queryFn: api.getCurrentUser
   });
 
-  const workouts = useQuery({
-    queryKey: ["workouts", user.data?.id],
-    queryFn: () => api.getUserWorkouts(user.data?.id as string)
-  });
-
-  // Add call to action if empty
   return(
     <div className="mb-16 h-full">
-      {workouts.isLoading ? (
+      {user.isLoading ? (
         <div>
-          {[...Array(3)].map((e, index) => 
+          {[...Array(3)].map((workoutSkeleton: any, index: any) => 
               <div key={index} className="flex flex-col bg-gray-900 rounded-lg m-2 p-4">
                 <div className="w-1/2 rounded-full bg-orange-300 p-2 m-1" />
                 <div className="w-1/2 rounded-full bg-gray-500 p-1 m-1"/>
@@ -38,17 +32,17 @@ export default function History () {
           }
         </div>
       ) : null}
-      {workouts.isSuccess ? (
+      {user.isSuccess ? (
         <>
-          { (workouts.data.length === 0) ? (
-            <div className="flex flex-col justify-center align-middle">
+          { (user.data.workouts.length === 0) ? (
+            <div className="flex flex-col space-y-5 justify-center text-center h-full m-5">
               <img src="https://www.pngall.com/wp-content/uploads/12/Running-PNG-Pic.png" className="w-32" />
               <p>You have no compleated workouts!</p>
-              <Link href="/app" className="bg-orange-500 hover:bg-orange-600 p-2 rounded-xl w-full">Get Started!</Link>
+              <Link href="/app" className="bg-orange-500 hover:bg-orange-600 p-2 rounded-xl w-max justify-center">Get Started!</Link>
             </div>
           ) : (
             <>
-              {workouts.data.map((workout: any, index: any) => (
+              {user.data.workouts.map((workout: any, index: any) => (
                 <Workout workout={workout} key={index} />
               ))}
             </>
