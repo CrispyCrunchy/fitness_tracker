@@ -21,16 +21,16 @@ export async function GET (request: NextRequest, { params }: { params: { userId:
       return NextResponse.json({ message: "User could not be found" }, { status: 404 });
     }
     
-    const workouts = await prisma.workout.findMany({
+    const completedWorkouts = await prisma.completedWorkout.findMany({
       where: { userId: userId },
       orderBy: { dateOfWorkout: 'desc'}
     })
 
-    if (!workouts) {
+    if (!completedWorkouts) {
       return NextResponse.json({ message: "No completed workouts found" }, { status: 404 });
     }
 
-    return NextResponse.json(workouts, { status: 200 });
+    return NextResponse.json(completedWorkouts, { status: 200 });
 
   } catch (error) {
     console.log(error);

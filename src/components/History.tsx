@@ -49,7 +49,6 @@ export default function History () {
           )}
         </>
       ) : null}
-      <button onClick={() => signOut()} className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x text-m absolute rounded-lg bottom-2 right-2">Sign Out</button>
     </div>
   );
 }

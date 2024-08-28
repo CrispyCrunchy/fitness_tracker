@@ -19,22 +19,18 @@ export default async function AppLayout({
 
   return(
     <div>
-      <div className="sm:grid sm:max-lg:grid-cols-4 lg:grid-cols-6 lg:min-h-screen lg:h-full">
-        <div className="max-lg:hidden lg:bg-gray-900"></div>
-        <div className="max-lg:hidden lg:col-span-2">
-          <NewWorkout />
-        </div>
-        <div className="lg:hidden"></div>
-        <div className="lg:hidden sm:col-span-2">
+      <div className="grid lg:grid-cols-5 min-h-screen">
+        <div className="col-span-1 max-lg:hidden bg-gray-900"></div>
+        <div className="lg:col-span-3">
+          <div className="flex justify-center mt-16">
+            <h1 className="text-4xl font-bold italic pb-3 pt-2">STRIVER</h1>
+            <img src="https://www.pngall.com/wp-content/uploads/12/Running-PNG-Pic.png" className="w-16" />
+          </div>
           {children}
         </div>
-        <div className="lg:hidden"></div>
-        <div className="max-lg:hidden lg:col-span-2">
-          <History />
-        </div>
-        <div className="max-lg:hidden lg:bg-gray-900"></div>
+        <div className="col-span-1 max-lg:hidden bg-gray-900"></div>
       </div>
-      <div className="lg:hidden">
+      <div>
         <Navigation />
       </div>
     </div>

@@ -38,11 +38,7 @@ export async function POST (request: NextRequest) {
       return NextResponse.json({ message: "No date set for workout" }, { status: 400 });
     }
 
-    if (!postData.compleationTime) {
-      return NextResponse.json({ message: "No compleation time set for workout" }, { status: 400 });
-    }
-
-    await prisma.workout.create({
+    await prisma.scheduledWorkout.create({
       data: {
         user: {
           connect: {
@@ -53,7 +49,6 @@ export async function POST (request: NextRequest) {
         distance: postData.distance,
         timeGoal: postData.timeGoal,
         dateOfWorkout: postData.dateOfWorkout,
-        compleationTime: postData.compleationTime
       }
     });
 

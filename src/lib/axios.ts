@@ -1,17 +1,24 @@
 import axios from "axios";
 
 const api = {
-  createWorkout: async (postData: { name: string, distance: number, timeGoal: number, dateOfWorkout: Date, compleationTime: number }) => {
-    const { data } = await axios.post("/api/create-workout", postData);
-    console.log(data);
+  createCompletedWorkout: async (postData: { name: string, distance: number, timeGoal: number, dateOfWorkout: Date, compleationTime: number }) => {
+    const { data } = await axios.post("/api/create-completed-workout", postData);
+    return data;
+  },
+  createScheduledWorkout: async (postData: { name: string, distance: number, timeGoal: number, dateOfWorkout: Date}) => {
+    const { data } = await axios.post("/api/create-scheduled-workout", postData);
     return data;
   },
   getCurrentUser: async () => {
     const { data } = await axios.get("/api/get-current-user");
     return data;
   },
-  getUserWorkouts: async (userId: string) => {
-    const { data } = await axios.get("/api/get-user-workouts/" + userId);
+  getUserCompletedWorkouts: async (userId: string) => {
+    const { data } = await axios.get("/api/get-user-completed-workouts/" + userId);
+    return data;
+  },
+  getUserScheduledWorkouts: async (userId: string) => {
+    const { data } = await axios.get("/api/get-user-scheduled-workouts/" + userId);
     return data;
   }
 };
