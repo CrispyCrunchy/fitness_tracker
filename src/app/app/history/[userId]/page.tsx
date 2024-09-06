@@ -1,6 +1,6 @@
 "use client";
 
-import Workout from "@/components/Workout";
+import CompletedWorkout from "@/components/CompletedWorkout";
 import api from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
@@ -21,37 +21,31 @@ export default function History () {
   // Add call to action if empty, and code skeleton when loading
   return(
     <div className="mb-16">
-      {completedWorkouts.isLoading ? (
-        <div>
-          {[...Array(3)].map((workoutSkeleton: any, index: any) => 
-            <div key={index} className="flex flex-col bg-gray-900 rounded-lg m-2 p-4">
-              <div className="w-1/2 rounded-full bg-orange-300 p-2 m-1" />
-              <div className="w-1/2 rounded-full bg-gray-500 p-1 m-1"/>
-              <div className="flex w-full">
-                <div className="w-1/3 rounded-full bg-gray-500 p-1 m-1" />
-                <div className="w-1/3 rounded-full bg-gray-500 p-1 m-1" />
-              </div>
-              <div className="w-1/2 rounded-full bg-gray-500 p-1 m-1"/>
+      {completedWorkouts.isLoading ? <>
+        {[...Array(3)].map((workoutSkeleton: any, index: any) => 
+          <div key={index} className="flex flex-col bg-gray-900 rounded-lg m-2 p-4">
+            <div className="w-1/2 rounded-full bg-orange-300 p-2 m-1" />
+            <div className="w-1/2 rounded-full bg-gray-500 p-1 m-1"/>
+            <div className="flex w-full">
+              <div className="w-1/3 rounded-full bg-gray-500 p-1 m-1" />
+              <div className="w-1/3 rounded-full bg-gray-500 p-1 m-1" />
             </div>
-          )}
-        </div>
-      ) : null}
-      {completedWorkouts.isSuccess ? (
-        <>
-          { (completedWorkouts.data.length === 0) ? (
-            <div className="flex flex-col space-y-5 text-center mt-28">
-              <p>You have no compleated workouts!</p>
-              <Link href={"/app/schedule/" + params.userId} className="flex bg-orange-500 hover:bg-orange-600 p-2 rounded-xl w-60 m-auto">Get Started!</Link>
-            </div>
-          ) : (
-            <>
-              {completedWorkouts.data.map((workout: any, index: any) => (
-                <Workout workout={workout} key={index} />
-              ))}
-            </>
-          )}
-        </>
-      ) : null}
+            <div className="w-1/2 rounded-full bg-gray-500 p-1 m-1"/>
+          </div>
+        )}
+      </> : null}
+      {completedWorkouts.isSuccess ? <>
+        { completedWorkouts.data.length ? <>
+          {completedWorkouts.data.map((workout: any, index: any) => (
+            <CompletedWorkout workout={workout} key={index} />
+          ))}
+        </> : 
+          <div className="flex flex-col space-y-5 text-center mt-28">
+            <p>You have no compleated workouts!</p>
+            <Link href={"/app/schedule/" + params.userId} className="flex bg-orange-500 hover:bg-orange-600 p-2 rounded-xl w-60 m-auto">Get Started!</Link>
+          </div>
+        }
+      </> : null}
     </div>
   );
 }

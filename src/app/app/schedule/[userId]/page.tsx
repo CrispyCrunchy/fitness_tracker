@@ -1,151 +1,139 @@
 "use client";
 
 import api from "@/lib/axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Alert } from "@mui/material";
+import { useParams } from "next/navigation";
+import ScheduledWorkout from "@/components/ScheduledWorkout";
 
 export default function App() {
 
+  const params = useParams();
   const queryClient = useQueryClient();
-  const [ ongoingWorkout, setOngoingWorkout ] = useState(false);
-  const [ startWorkoutError, setStartWorkoutError ] = useState(false);
-  const [ time, setTime ] = useState(0);
-  const [ isRunning, setIsRunning ] = useState(false);
-  const [ name, setName ] = useState("")
+  const [ selected, setSelected ] = useState(NaN);
+  const [ name, setName ] = useState("");
   const [ distance, setDistance ] = useState(NaN);
   const [ date, setDate ] = useState(new Date());
-  const [ timeGoal, setTimeGoal ] = useState(NaN);  
+  const [ timeGoal, setTimeGoal ] = useState(NaN);
+  const [ scheduleWorkoutError, setScheduleWorkoutError ] = useState(false);
   const [ minutesAndSeconds, setMinutesAndSeconds ] = useState({
     minutes: NaN,
     seconds: NaN
   });
 
-  useEffect (() => {
-    let intervalId: any;
-    if (isRunning) {
-      //Incrementing time by 1 every 10 milliseconds 
-      intervalId = setInterval(() => setTime(time + 1), 10);
-    }
+  let scheduledWorkouts = useQuery({
+    queryKey: ["scheduledWorkouts", params.userId],
+    queryFn: () => api.getUserScheduledWorkouts(params.userId as string)
+  });
 
-    // Cleanup function, Memoryleak cleanup
-    return () => clearInterval(intervalId);
-  }, [isRunning, time]);
-
-  const minutes = Math.floor(time / 6000);
-  const seconds = Math.floor((time % 6000) / 100);
-  const milliseconds = time % 100;
-
-  const startAndStop = () => {
-    setIsRunning(!isRunning);
-  }
-
-  const resetAndCancel = () => {
-    if (time === 0) {
-      setOngoingWorkout(false);
-    } else {
-      setTime(0);
-    }
-  }
-
-  const finishWorkout = useMutation({
-    mutationFn: () => api.createCompletedWorkout({ 
+  const createScheduledWorkout = useMutation({
+    mutationFn: () => api.createScheduledWorkout({
       name: name,
       distance: distance,
       timeGoal: timeGoal,
-      dateOfWorkout: date,
-      compleationTime: time 
+      dateOfWorkout: date
     }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
-      setOngoingWorkout(false);
+      queryClient.invalidateQueries({ queryKey: ["scheduledWorkouts"] });
       setName("");
       setDistance(NaN);
       setDate(new Date());
       setTimeGoal(NaN);
       setMinutesAndSeconds({minutes: NaN, seconds: NaN});
-      setTime(0);
-      setIsRunning(false);
     }
   });
 
-  const startWorkout = () => {
+  const scheduleWorkout = () => {
     if (name && distance && minutesAndSeconds && date) {
       setTimeGoal(minutesAndSeconds.minutes*6000 + minutesAndSeconds.seconds*100);
-      setOngoingWorkout(true);
+      createScheduledWorkout.mutate();
     } else {
-      setStartWorkoutError(true);
+      setScheduleWorkoutError(true);
     }
   }
 
-  return (
-    <div>
-      {ongoingWorkout ? ( 
-        <div className="flex flex-col p-5 text-center gap-4">
-          <div>
-            <h2 className="text-xl font-bold">Your Workout: {name}</h2>
-            
-            <div className="flex justify-center gap-8 mt-5">
-              <div>
-                <h3 className="font-bold">Distance:</h3>
-                <p>{distance} meters</p>
+  return(
+    <div className="flex w-full mt-5 h-screen">
+      <div className="flex flex-col lg:w-1/3">
+        <button onClick={() => setSelected(NaN)} className="flex bg-orange-500 hover:bg-orange-600 p-2 rounded-xl m-2 justify-center">
+          <p>New Workout</p> 
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <div>
+          {scheduledWorkouts.isLoading ? <>
+            {[...Array(3)].map((workoutSkeleton: any, index: any) => 
+              <div key={index} className="flex flex-col bg-gray-900 rounded-lg m-2 p-4">
+                <div className="w-1/2 rounded-full bg-orange-300 p-2 m-1" />
+                <div className="w-2/3 rounded-full bg-gray-500 p-1 m-1"/>
               </div>
-              <div>
-                <h3 className="font-bold">Time Goal:</h3>
-                <p>{minutesAndSeconds.minutes}:{minutesAndSeconds.seconds}</p>
+            )}
+          </> : null}
+          {scheduledWorkouts.isSuccess ? <>
+            {scheduledWorkouts.data.length ? <>
+              {scheduledWorkouts.data.map((workout: any, index: any) => (
+                <button onClick={() => setSelected(index)}>
+                  <ScheduledWorkout workout={workout} key={index} />
+                </button>
+              ))}
+            </> :
+              <div className="flex flex-col text-center mt-28">
+                <p>You have no scheduled workouts.</p>
               </div>
-            </div>
-          </div>
-          <div>
-            <div className="text-6xl">
-              {minutes.toString().padStart(2, "0")}:
-              {seconds.toString().padStart(2, "0")}:
-              {milliseconds.toString().padStart(2, "0")}
-            </div>
-            <div className="flex gap-2 justify-center">
-              <button onClick={resetAndCancel} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-20">{time ? "Reset" : "Cancel"}</button>
-              <button onClick={startAndStop} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-20">{isRunning ? "Stop" : "Start"}</button>
-              <button onClick={() => (finishWorkout.mutate() /*, refresh element*/)} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-20">Finish</button>
-            </div>
-          </div>
+            }
+          </> : null}
         </div>
-      ) : (
-        <div className="flex flex-col p-5 text-center gap-4">
-          <div className="flex flex-col gap-1 pt-4">
-            <p className="">Name your workout</p>
-            <input value={name} onChange={(e) => setName(e.target.value)} className="rounded-md text-black" placeholder=" Workout"/>
-          </div>
-          <div className="flex flex-row gap-3">
-            <div className="flex flex-col gap-2 w-1/2">
-              <p className="">Distance</p>
-              <input value={distance} onChange={(e) => setDistance(Number(e.target.value))} className="rounded-md text-black" type="number" placeholder="X m" />
+      </div>
+      <div className="flex flex-col lg:w-2/3 bg-gray-900 m-1 rounded-md">
+        { Number.isNaN(selected) ?
+          <div className="flex flex-col p-5 text-center gap-4">
+            <div className="flex flex-col gap-1 pt-4">
+              <p className="">Name your workout</p>
+              <input value={name} onChange={(e) => setName(e.target.value)} className="rounded-md text-black" placeholder=" Workout"/>
             </div>
-            <div className="flex flex-col gap-2 w-1/2">
-              <p>Time goal</p>
-              <div className="flex gap-1">
-                <input value={minutesAndSeconds.minutes} onChange={(e) => {setMinutesAndSeconds({...minutesAndSeconds, minutes: Number(e.target.value)});}} className="rounded-md w-1/2 text-black" type="number" placeholder="Min" />
-                <p>:</p>
-                <input value={minutesAndSeconds.seconds} onChange={(e) => {setMinutesAndSeconds({...minutesAndSeconds, seconds: Number(e.target.value)});}} className="rounded-md w-1/2 text-black" type="number" placeholder="Sec" />
+            <div className="flex flex-row gap-3">
+              <div className="flex flex-col gap-2 w-1/2">
+                <p className="">Distance</p>
+                <input value={distance} onChange={(e) => setDistance(Number(e.target.value))} className="rounded-md text-black" type="number" placeholder="X m" />
+              </div>
+              <div className="flex flex-col gap-2 w-1/2">
+                <p>Time goal</p>
+                <div className="flex gap-1">
+                  <input value={minutesAndSeconds.minutes} onChange={(e) => {setMinutesAndSeconds({...minutesAndSeconds, minutes: Number(e.target.value)});}} className="rounded-md w-1/2 text-black" type="number" placeholder="Min" />
+                  <p>:</p>
+                  <input value={minutesAndSeconds.seconds} onChange={(e) => {setMinutesAndSeconds({...minutesAndSeconds, seconds: Number(e.target.value)});}} className="rounded-md w-1/2 text-black" type="number" placeholder="Sec" />
+                </div>
               </div>
             </div>
+            <div>
+              <p className="pb-2">Date of workout</p>
+              <DatePicker selected={date} onChange={(date) => setDate(date ?? new Date())}  className="rounded-md text-black" />
+            </div>
+            {createScheduledWorkout.isPending ?
+              <div className="flex bg-orange-600 p-2 mt-6 rounded-xl w-full justify-center">
+                <svg className="animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                <p> Processing...</p>
+              </div>
+              : <button onClick={scheduleWorkout} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-full">
+                Schedule Workout 
+              </button>
+            }
+            { scheduleWorkoutError ?
+              <Alert variant="filled" severity="error" onClose={() => {setScheduleWorkoutError(false)}}>
+                There are missing fields
+              </Alert>
+              : null
+            }
           </div>
-          <div>
-            <p className="pb-2">Date of workout</p>
-            <DatePicker selected={date} onChange={(date) => setDate(date ?? new Date())}  className="rounded-md text-black" />
-          </div>
-          <div>
-            <button onClick={startWorkout} className="bg-orange-500 hover:bg-orange-600 p-2 mt-6 rounded-xl w-full">Schedule Workout</button>
-          </div>
-          { startWorkoutError ?
-            <Alert variant="filled" severity="error" onClose={() => {setStartWorkoutError(false)}}>
-              There are missing fields
-            </Alert>
-            : null
-          }
-        </div>
-      )}
+          : <div className="flex felx-col p-5 text-center gap-4">
+            <div>
+              
+            </div>
+          </div> 
+        }
+      </div>
     </div>
-  );
+  )
 }

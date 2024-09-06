@@ -20,7 +20,7 @@ export default function Home() {
   var totalDistance = 0;
   var totalTime = 0;
 
-  Number.prototype.padLeft = function(base,chr) {
+  Number.prototype.padLeft = function(base: any, chr: any) {
     var  len = (String(base || 10).length - String(this).length)+1;
     return len > 0? new Array(len).join(chr || '0')+this : this;
   }
@@ -104,7 +104,7 @@ export default function Home() {
           <div className="flex bg-gray-900 rounded-xl mr-5 ml-5 mb-5">
             {user.data.completedWorkouts.length ? <>
               <p className="m-5 w-full">You have {user.data.completedWorkouts.length} completed workouts</p>
-              <Link href={"/app/schedule/" + user.data.id} className="justify-end w-40 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5">Take a look</Link>
+              <Link href={"/app/history/" + user.data.id} className="justify-end w-40 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5">Take a look</Link>
             </> : <>
               <p className="m-5 w-full">You don't have any completed workouts</p>
               <Link href={"/app/schedule/" + user.data.id} className="justify-end w-40 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5">Get Started</Link>
