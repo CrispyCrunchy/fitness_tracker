@@ -18,6 +18,7 @@ export default function App() {
   const [ distance, setDistance ] = useState(NaN);
   const [ date, setDate ] = useState(new Date());
   const [ timeGoal, setTimeGoal ] = useState(NaN);
+  const [ editWorkout, setEditWorkout ] = useState(NaN);
   const [ scheduleWorkoutError, setScheduleWorkoutError ] = useState(false);
   const [ minutesAndSeconds, setMinutesAndSeconds ] = useState({
     minutes: NaN,
@@ -48,11 +49,15 @@ export default function App() {
 
   const scheduleWorkout = () => {
     if (name && distance && minutesAndSeconds && date) {
-      setTimeGoal(minutesAndSeconds.minutes*6000 + minutesAndSeconds.seconds*100);
+      setTimeGoal(minutesAndSeconds.minutes*60000 + minutesAndSeconds.seconds*1000);
       createScheduledWorkout.mutate();
     } else {
       setScheduleWorkoutError(true);
     }
+  }
+
+  if (scheduledWorkouts.isSuccess) {
+    console.log(scheduledWorkouts.data[0])
   }
 
   return(
@@ -127,10 +132,30 @@ export default function App() {
               : null
             }
           </div>
-          : <div className="flex felx-col p-5 text-center gap-4">
-            <div>
-              
+          : <div className="flex felx-col p-5 text-center gap-4 w-full">
+            {Number.isNaN(editWorkout)? <div className="flex flex-col w-full gap-5">
+              <p className="text-orange-300 text-2xl font-bold">{scheduledWorkouts.data[selected].name}</p>
+              <div className="flex justify-between">
+                <p>Date of Workout:</p>
+                <p>{new Date(scheduledWorkouts.data[selected].dateOfWorkout).toISOString().slice(0,10)}</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Workout Distance:</p>
+                <p>{scheduledWorkouts.data[selected].distance} Meters</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Time goal:</p>
+                <p>{new Date(scheduledWorkouts.data[selected].timeGoal).toISOString().slice(11,19)}</p>
+              </div>
+              <div className="flex justify-center gap-2">
+                <button className="bg-red-500 hover:bg-red-600 rounded-lg p-2 w-20">Delete</button>
+                <button className="bg-orange-500 hover:bg-orange-600 rounded-lg p-2 w-20">Edit</button>
+                <button className="bg-orange-500 hover:bg-orange-600 rounded-lg p-2 w-40">Start Workout</button>
+              </div>
             </div>
+            : <div>
+              
+            </div> }
           </div> 
         }
       </div>

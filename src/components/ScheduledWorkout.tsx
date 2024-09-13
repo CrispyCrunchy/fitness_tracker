@@ -14,11 +14,7 @@ export default function ScheduledWorkout ({ workout }) {
   return (
     <div className="flex flex-col bg-gray-900 rounded-lg m-2 p-4">
       <h2 className="font-bold text-xl text-orange-300">{workout.name}</h2>
-      <p className="flex start-0">{dateFormat}</p>
-      <div className="flex justify-between">
-        <p>{workout.distance} meters,</p>
-        <p>time goal of {(Math.floor(workout.timeGoal/6000)).padLeft()}:{(Math.floor((workout.timeGoal%6000)/100)).padLeft()}</p>
-      </div>
+      <p className="flex start-0">Date: {dateFormat}</p>
     </div>
   );
 }

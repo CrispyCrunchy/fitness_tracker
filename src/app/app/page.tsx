@@ -72,7 +72,7 @@ export default function Home() {
                 {user.data.completedWorkouts.forEach((workout: { compleationTime: number; }) => {
                   totalTime += workout.compleationTime;
                 }, totalTime)}
-                {Math.floor(totalTime/360000).padLeft()}:{Math.floor((totalTime%360000)/6000).padLeft()}:{Math.floor(((totalTime%360000)%6000)/100).padLeft()}:{(((totalTime%360000)%6000)%100).padLeft()}
+                {Math.floor(totalTime/360000).padLeft()}:{Math.floor((totalTime%360000)/6000).padLeft()}:{Math.floor(((totalTime%360000)%6000)/100).padLeft()},{(((totalTime%360000)%6000)%100).padLeft()}
               </>
             : null}
           </div>
@@ -88,10 +88,10 @@ export default function Home() {
           <div className="flex bg-gray-900 rounded-xl m-5">
             {user.data.scheduledWorkouts.length ? <>
               <p className="m-5 w-full">You have {user.data.scheduledWorkouts.length} scheduled workouts</p>
-              <Link href={"/app/schedule/" + user.data.id} className="justify-end w-52 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5">Start!</Link>
+              <Link href={"/app/schedule/" + user.data.id} className="justify-end w-52 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5 text-center">Start!</Link>
             </> : <>
               <p className="m-5 w-full">You don't have any scheduled workouts</p>
-              <Link href={"/app/schedule/" + user.data.id} className="justify-end w-52 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5">Schedule Now</Link>
+              <Link href={"/app/schedule/" + user.data.id} className="justify-end w-52 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5 text-center">Schedule Now</Link>
             </>}
           </div>
         }
@@ -104,10 +104,10 @@ export default function Home() {
           <div className="flex bg-gray-900 rounded-xl mr-5 ml-5 mb-5">
             {user.data.completedWorkouts.length ? <>
               <p className="m-5 w-full">You have {user.data.completedWorkouts.length} completed workouts</p>
-              <Link href={"/app/history/" + user.data.id} className="justify-end w-40 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5">Take a look</Link>
+              <Link href={"/app/history/" + user.data.id} className="justify-end w-52 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5 text-center">Take a look</Link>
             </> : <>
               <p className="m-5 w-full">You don't have any completed workouts</p>
-              <Link href={"/app/schedule/" + user.data.id} className="justify-end w-40 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5">Get Started</Link>
+              <Link href={"/app/schedule/" + user.data.id} className="justify-end w-52 bg-orange-500 hover:bg-orange-600 rounded-xl p-2 mt-auto mb-auto mr-5 text-center">Get Started</Link>
             </>}
           </div>
         }
