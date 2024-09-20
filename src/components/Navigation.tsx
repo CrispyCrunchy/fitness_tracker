@@ -22,7 +22,7 @@ export default function Navigation () {
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lg:hidden mx-auto my-auto"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>
         <p className="max-lg:hidden">Schedule</p>
       </Link>
-      <Link href="/app/workout" className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/5 text-sm">
+      <Link href={user.isSuccess ? "/app/workout/" + user.data.id : "/app"} className="bg-orange-500 hover:bg-orange-600 p-2 text-white border-black border-x basis-1/5 text-sm">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lg:hidden mx-auto my-auto"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
         <p className="max-lg:hidden">Workout</p>
       </Link>

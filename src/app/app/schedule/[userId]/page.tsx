@@ -14,6 +14,7 @@ export default function App() {
   const router = useRouter();
   const params = useParams();
   const queryClient = useQueryClient();
+  const [ mobileNavigation, setMobileNavigation] = useState(false);
   const [ selected, setSelected ] = useState(NaN);
   const [ name, setName ] = useState("");
   const [ distance, setDistance ] = useState(NaN);
@@ -67,7 +68,7 @@ export default function App() {
     onSuccess: () => {
       api.deleteScheduledWorkout(scheduledWorkouts.data[selected].id),
       queryClient.invalidateQueries({ queryKey: ["scheduledWorkouts"] }),
-      router.push('/app/workout');
+      router.push('/app/workout/' + params.userId);
     }
   });
 
@@ -83,8 +84,8 @@ export default function App() {
   })
 
   return(
-    <div className="flex w-full mt-5 h-screen">
-      <div className="flex flex-col lg:w-1/3">
+    <div className="flex w-full mt-5">
+      <div className="flex flex-col md:w-1/3">
         <button onClick={() => {setSelected(NaN), setEditWorkout(NaN)}} className="flex bg-orange-500 hover:bg-orange-600 p-2 rounded-xl m-2 justify-center">
           <p>New Workout</p> 
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -113,7 +114,7 @@ export default function App() {
           </> : null}
         </div>
       </div>
-      <div className="flex flex-col lg:w-2/3 bg-gray-900 m-1 rounded-md">
+      <div className="flex flex-col md:w-2/3 bg-gray-900 m-1 rounded-md">
         { Number.isNaN(selected) ?
           <div className="flex flex-col p-5 text-center gap-4">
             <div className="flex flex-col gap-1 pt-4">

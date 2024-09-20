@@ -25,8 +25,20 @@ const api = {
     const { data } = await axios.get("/api/get-user-scheduled-workouts/" + userId);
     return data;
   },
+  getUserOngoingWorkout: async (userId: string) => {
+    const { data } = await axios.get("/api/get-user-ongoing-workouts/" + userId);
+    return data;
+  },
+  deleteCompletedWorkout: async (workoutId: string) => {
+    const { data } = await axios.delete("/api/delete-completed-workout/" + workoutId);
+    return data;
+  },
   deleteScheduledWorkout: async (workoutId: string) => {
     const { data } = await axios.delete("/api/delete-scheduled-workout/" + workoutId);
+    return data;
+  },
+  deleteOngoingWorkout: async (workoutId: string) => {
+    const { data } = await axios.delete("/api/delete-ongoing-workout/" + workoutId);
     return data;
   }
 };

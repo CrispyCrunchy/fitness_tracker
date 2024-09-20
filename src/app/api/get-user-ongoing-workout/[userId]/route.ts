@@ -26,7 +26,7 @@ export async function GET (request: NextRequest, { params }: { params: { userId:
     })
 
     if (!ongoingWorkout) {
-      return NextResponse.json({ message: "No completed workouts found" }, { status: 404 });
+      return NextResponse.json({ message: "No ongoing workout found" }, { status: 404 });
     }
 
     return NextResponse.json(ongoingWorkout, { status: 200 });

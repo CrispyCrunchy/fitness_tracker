@@ -15,7 +15,7 @@ export async function GET ( request: NextRequest ) {
 
     const user = await prisma.user.findUnique({
       where: { email: session.user?.email ?? "" },
-      include: { scheduledWorkouts: true , completedWorkouts: true}
+      include: { scheduledWorkouts: true, completedWorkouts: true, ongoingWorkout: true}
     });
 
     if (!user) {

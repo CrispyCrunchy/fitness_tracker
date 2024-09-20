@@ -14,8 +14,6 @@ export default function Home() {
     queryKey: ["user"],
     queryFn: api.getCurrentUser
   });
-  
-  console.log(user.data);
 
   var totalDistance = 0;
   var totalTime = 0;
