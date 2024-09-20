@@ -43,6 +43,7 @@ model User {
   image               String?
   accounts            Account[]
   sessions            Session[]
+  ongoingWorkout      OngoingWorkout? @relation("ongoing")
   scheduledWorkouts   ScheduledWorkout[]
   completedWorkouts   CompletedWorkout[]
 }
@@ -53,11 +54,21 @@ model VerificationToken {
   expires    DateTime
  
   @@unique([identifier, token])
-} 
+}
+
+model OngoingWorkout {
+  id              String  @id @default(cuid())
+  user            User    @relation("ongoing", references: [id], fields: [userId], onDelete: Cascade)
+  userId          String  @unique
+  name            String
+  distance        Int
+  timeGoal        Int
+  dateOfWorkout   DateTime
+}
 
 model ScheduledWorkout {
-  id              String    @id @default(cuid())
-  user            User @relation(references: [id], fields: [userId], onDelete: Cascade)
+  id              String  @id @default(cuid())
+  user            User    @relation(references: [id], fields: [userId], onDelete: Cascade)
   userId          String
   name            String
   distance        Int
@@ -66,8 +77,8 @@ model ScheduledWorkout {
 }
 
 model CompletedWorkout {
-  id              String    @id @default(cuid())
-  user            User @relation(references: [id], fields: [userId], onDelete: Cascade)
+  id              String  @id @default(cuid())
+  user            User    @relation(references: [id], fields: [userId], onDelete: Cascade)
   userId          String
   name            String
   distance        Int

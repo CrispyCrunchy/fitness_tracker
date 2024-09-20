@@ -38,7 +38,7 @@ export async function POST (request: NextRequest) {
       return NextResponse.json({ message: "No date set for workout" }, { status: 400 });
     }
 
-    await prisma.scheduledWorkout.create({
+    await prisma.ongoingWorkout.create({
       data: {
         user: {
           connect: {
@@ -52,7 +52,7 @@ export async function POST (request: NextRequest) {
       }
     });
 
-    return NextResponse.json({ message: "Successfully scheduled workout!" }, { status: 200 });
+    return NextResponse.json({ message: "Successfully started workout!" }, { status: 200 });
 
   } catch (error) {
     console.log(error);
