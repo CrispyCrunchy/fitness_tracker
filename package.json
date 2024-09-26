@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.0.0",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.6",
     "@next-auth/prisma-adapter": "^0.4.4-canary.81",
     "@prisma/client": "^5.13.0",
     "@tanstack/react-query": "^5.32.1",
