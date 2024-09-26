@@ -14,25 +14,39 @@ export async function PUT ( request: NextRequest, { params }: { params: { workou
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: session.user?.email ?? "" },
-    });
+    const postData = await request.json();
 
-    if (!user) {
-      return NextResponse.json({ message: "User not found!" }, { status: 404 });
+    if (!postData.workoutId) {
+      return NextResponse.json({ message: "No worrkout Id given"}, { status: 400 });
     }
 
-    const workout = await prisma.scheduledWorkout.findUnique({
+    if (!postData.name) {
+      return NextResponse.json({ message: "Workout not named" }, { status: 400 });
+    }
+
+    if (!postData.distance) {
+      return NextResponse.json({ message: "No distance set for workout" }, { status: 400 });
+    }
+
+    if (!postData.timeGoal) {
+      return NextResponse.json({ message: "No time goal set for workout" }, { status: 400 });
+    }
+
+    if (!postData.dateOfWorkout) {
+      return NextResponse.json({ message: "No date set for workout" }, { status: 400 });
+    }
+
+    const workout = await prisma.scheduledWorkout.update({
       where: { id: workoutId },
-      include: {
-        name: true,
-        distance: true,
-        timeGoal: true,
-        dateOfWorkout: true
+      data: {
+        name: postData.name,
+        distance: postData.distance,
+        timeGoal: postData.timeGoal,
+        dateOfWorkout: postData.dateOfWorkout
       }
     });
 
-    return NextResponse.json(user, { status: 200 });
+    return NextResponse.json(workout, { status: 200 });
 
   } catch (error) {
     console.log(error);

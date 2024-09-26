@@ -23,14 +23,17 @@ export default function History () {
     <div className="mb-16">
       {completedWorkouts.isLoading ? <>
         {[...Array(3)].map((workoutSkeleton: any, index: any) => 
-          <div key={index} className="flex flex-col bg-gray-900 rounded-lg m-2 p-4">
-            <div className="w-1/2 rounded-full bg-orange-300 p-2 m-1" />
-            <div className="w-1/2 rounded-full bg-gray-500 p-1 m-1"/>
-            <div className="flex w-full">
-              <div className="w-1/3 rounded-full bg-gray-500 p-1 m-1" />
-              <div className="w-1/3 rounded-full bg-gray-500 p-1 m-1" />
+          <div key={index} className="animate-pulse flex flex-col bg-gray-900 rounded-lg m-2 p-4 gap-1">
+            <div className="w-1/2 rounded-full bg-orange-300 p-3 m-1" />
+            <div className="flex w-full justify-between">
+              <div className="w-1/3 rounded-full bg-gray-500 p-2 m-1" />
+              <div className="w-1/3 rounded-full bg-gray-500 p-2 m-1" />
             </div>
-            <div className="w-1/2 rounded-full bg-gray-500 p-1 m-1"/>
+            <div className="w-1/2 rounded-full bg-gray-500 p-2 m-1"/>
+            <div className="flex w-full justify-between">
+              <div className="w-1/2 rounded-full bg-gray-500 p-2 m-1"/>
+              <div className="w-1/4 rounded-lg bg-red-500 p-2 m-1" />
+            </div>
           </div>
         )}
       </> : null}

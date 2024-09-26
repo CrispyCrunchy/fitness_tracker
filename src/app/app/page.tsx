@@ -1,11 +1,9 @@
 "use client";
 
 import api from "@/lib/axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Alert } from "@mui/material";
 import Link from "next/link";
 
 export default function Home() {
@@ -27,7 +25,7 @@ export default function Home() {
     <div>
       <div className="flex m-5 bg-gray-800 rounded-full">
         {user.isLoading ? (
-          <div className="flex">
+          <div className="animate-pulse flex">
             <div className="rounded-full h-24 w-24 m-2 bg-gray-500" />
             <div className="flex flex-col justify-evenly">
               <p className="ml-5 h-8 lg:w-40 w-24 rounded-full bg-orange-400" />
@@ -78,7 +76,7 @@ export default function Home() {
       </div>
       <div className="flex flex-col">
         { user.isLoading ?
-          <div className="flex bg-gray-900 rounded-xl m-5">
+          <div className="animate-pulse flex bg-gray-900 rounded-xl m-5">
             <p className="bg-gray-500 p-2 w-full m-5 rounded-full" />
             <div className="justify-end w-36 bg-orange-500 hover:bg-orange-600 rounded-xl p-3 mt-5 mb-5 mr-5 h-8" />
           </div>
@@ -94,7 +92,7 @@ export default function Home() {
           </div>
         }
         { user.isLoading ?
-          <div className="flex bg-gray-900 rounded-xl mr-5 ml-5 mb-5">
+          <div className="animate-pulse flex bg-gray-900 rounded-xl mr-5 ml-5 mb-5">
             <p className="bg-gray-500 p-2 w-full m-5 rounded-full" />
             <div className="justify-end w-36 bg-orange-500 hover:bg-orange-600 rounded-xl p-3 mt-5 mb-5 mr-5 h-8" />
           </div>
@@ -110,7 +108,6 @@ export default function Home() {
           </div>
         }
       </div>
-        
     </div>
   );
 }
