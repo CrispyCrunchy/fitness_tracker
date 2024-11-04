@@ -31,9 +31,9 @@ export default function CompletedWorkout ({ workout }) {
         <p>{workout.distance} meters,</p>
         <p>{dateFormat}</p>
       </div>
-      <p>Time goal of {(Math.floor(workout.timeGoal/6000)).padLeft()}:{(Math.floor((workout.timeGoal%6000)/100)).padLeft()}</p>
+      <p>Time goal of {(Math.floor(workout.timeGoal/60000)).padLeft()}:{(Math.floor((workout.timeGoal%60000)/1000)).padLeft()}</p>
       <div className="flex justify-between">
-        <p>Finish time of {(Math.floor(workout.compleationTime/6000)).padLeft()}:{(Math.floor((workout.compleationTime%6000)/100)).padLeft()},{((workout.compleationTime%6000)%100).padLeft()}</p>
+        <p>Finish time of {(Math.floor(workout.compleationTime/60000)).padLeft()}:{(Math.floor((workout.compleationTime%60000)/1000)).padLeft()},{((workout.compleationTime%60000)%1000).padLeft()}</p>
         <button onClick={() => deleteCompletedWorkout.mutate()} className="bg-red-500 hover:bg-red-600 rounded-lg p-1">
           {deleteCompletedWorkout.isPending ? 
             <svg className="animate-spin m-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>

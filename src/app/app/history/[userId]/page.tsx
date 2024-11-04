@@ -3,7 +3,6 @@
 import CompletedWorkout from "@/components/CompletedWorkout";
 import api from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 

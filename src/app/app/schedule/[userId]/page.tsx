@@ -8,7 +8,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Alert } from "@mui/material";
 import { useParams, useRouter } from "next/navigation";
 import ScheduledWorkout from "@/components/ScheduledWorkout";
-import { DateTime } from "next-auth/providers/kakao";
 
 export default function App() {
 
@@ -24,6 +23,8 @@ export default function App() {
   const [ editWorkout, setEditWorkout ] = useState(false);
   const [ scheduleWorkoutError, setScheduleWorkoutError ] = useState(false);
   const [ editWorkoutError, setEditWorkoutError] = useState(false);
+  const [ scheduleWorkoutServerError, setScheduleWorkoutServerError] = useState(false);
+  const [ scheduleWorkoutSuccess, setScheduleWorkoutSuccess] = useState(false);
   const [ minutesAndSeconds, setMinutesAndSeconds ] = useState({
     minutes: NaN,
     seconds: NaN
@@ -48,6 +49,10 @@ export default function App() {
       setDate(new Date());
       setTimeGoal(NaN);
       setMinutesAndSeconds({minutes: NaN, seconds: NaN});
+      setScheduleWorkoutSuccess(true);
+    },
+    onError: () => {
+      setScheduleWorkoutServerError(true);
     }
   });
 
@@ -205,6 +210,20 @@ export default function App() {
             : 
               null
             }
+            { scheduleWorkoutServerError ?
+              <Alert variant="filled" severity="error" onClose={() => {setScheduleWorkoutServerError(false)}}>
+                Something went wrong
+              </Alert>
+            : 
+              null
+            }
+            { scheduleWorkoutSuccess ?
+              <Alert variant="filled" severity="success" onClose={() => {setScheduleWorkoutSuccess(false)}}>
+                Your workout have been scheduled
+              </Alert>
+            : 
+              null
+            }
           </div>
         : 
           <div className="flex felx-col p-5 text-center gap-4 w-full">
@@ -242,7 +261,7 @@ export default function App() {
                     : <> Save Edit </> }
                   </button>
                 </div>
-                { scheduleWorkoutError ?
+                { editWorkoutError ?
                   <Alert variant="filled" severity="error" onClose={() => {setScheduleWorkoutError(false)}}>
                     You have made no edits!
                   </Alert>

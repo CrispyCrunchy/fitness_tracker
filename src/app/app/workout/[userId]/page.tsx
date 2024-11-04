@@ -24,14 +24,14 @@ export default function App() {
     let intervalId: any;
     if (isRunning) {
       //Incrementing time by 1 every 10 milliseconds 
-      intervalId = setInterval(() => setTime(time + 1), 10);
+      intervalId = setInterval(() => setTime(time + 1), 1);
     }
     return () => clearInterval(intervalId);
   }, [isRunning, time]);
 
-  const minutes = Math.floor(time / 6000);
-  const seconds = Math.floor((time % 6000) / 100);
-  const milliseconds = time % 100;
+  const minutes = Math.floor(time / 60000);
+  const seconds = Math.floor((time % 60000) / 1000);
+  const milliseconds = time % 1000;
 
   const startAndStop = () => {
     setIsRunning(!isRunning);
@@ -94,7 +94,7 @@ export default function App() {
             <div className="md:text-7xl text-6xl">
               {minutes.toString().padStart(2, "0")}:
               {seconds.toString().padStart(2, "0")}:
-              {milliseconds.toString().padStart(2, "0")}
+              {milliseconds.toString().padStart(3, "0")}
             </div>
             <div className="flex gap-2 justify-center">
               <button className="bg-orange-500 hover:bg-orange-600 hover:cursor-not-allowed p-2 mt-6 rounded-xl w-20">

@@ -68,7 +68,7 @@ export default function Home() {
                 {user.data.completedWorkouts.forEach((workout: { compleationTime: number; }) => {
                   totalTime += workout.compleationTime;
                 }, totalTime)}
-                {Math.floor(totalTime/360000).padLeft()}:{Math.floor((totalTime%360000)/6000).padLeft()}:{Math.floor(((totalTime%360000)%6000)/100).padLeft()},{(((totalTime%360000)%6000)%100).padLeft()}
+                {Math.floor(totalTime/3600000).padLeft()}:{Math.floor((totalTime%3600000)/60000).padLeft()}:{Math.floor(((totalTime%3600000)%60000)/1000).padLeft()},{(((totalTime%3600000)%60000)%1000).padLeft()}
               </>
             : null}
           </div>
